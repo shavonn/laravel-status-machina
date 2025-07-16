@@ -51,7 +51,7 @@ php artisan migrate
 
 namespace App\States;
 
-use StatusMachina\Config\AbstractStateConfig;
+use Shavonn\StatusMachina\Config\AbstractStateConfig;
 
 class OrderStateConfig extends AbstractStateConfig
 {
@@ -117,7 +117,7 @@ class OrderStateConfig extends AbstractStateConfig
 ```php
 // In AppServiceProvider or a dedicated ServiceProvider
 
-use StatusMachina\StatusMachina;
+use Shavonn\StatusMachina\StatusMachina;
 
 public function boot(): void
 {
@@ -134,7 +134,7 @@ public function boot(): void
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use StatusMachina\Traits\HasStateMachine;
+use Shavonn\StatusMachina\Traits\HasStateMachine;
 
 class Order extends Model
 {
@@ -274,7 +274,7 @@ class ArticleStateConfig extends AbstractStateConfig
 Query transition history:
 
 ```php
-use StatusMachina\Models\StateTransition;
+use Shavonn\StatusMachina\Models\StateTransition;
 
 // Get all transitions for a model
 $history = StateTransition::forModel($order)
@@ -415,7 +415,7 @@ return [
 ### Testing
 
 ```php
-use StatusMachina\StatusMachina;
+use Shavonn\StatusMachina\StatusMachina;
 
 public function test_order_can_transition_to_processing()
 {
