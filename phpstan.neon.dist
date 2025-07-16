@@ -1,12 +1,17 @@
 includes:
-    - phpstan-baseline.neon
+  - phpstan-baseline.neon
 
 parameters:
-    level: 5
-    paths:
-        - src
-        - config
-        - database
-    tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
+  level: 5
+  paths:
+    - src
+    - config
+    - database
+  tmpDir: build/phpstan
+  checkOctaneCompatibility: true
+  checkModelProperties: true
+  ignoreErrors:
+    - identifier: trait.unused
+      path: src/Traits/HasStateMachine.php
+    - identifier: larastan.noEnvCallsOutsideOfConfig
+      path: config/status-machina.php
