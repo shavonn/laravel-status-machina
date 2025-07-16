@@ -1,68 +1,444 @@
-# :package_description
+# Laravel Status Machina
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/shavonn/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/shavonn/laravel-status-machina)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/shavonn/laravel-status-machina/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/shavonn/laravel-status-machina/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/shavonn/laravel-status-machina/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/shavonn/laravel-status-machina/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/shavonn/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/shavonn/laravel-status-machina)
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A powerful and flexible state machine package for Laravel 12 with PHP 8.4, featuring state management, transitions,
+hooks, and authorization.
 
-## Support us
+## Features
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
+* **Modern PHP 8.4** - Leverages property hooks, asymmetric visibility, and new array functions
+* **Flexible State Management** - Works with Eloquent models and plain PHP objects
+* **Powerful Hooks System** - Before/after hooks with priorities and conditional execution
+* **Built-in Authorization** - Gate, Policy, and Permission-based transition protection
+* **History Tracking** - Optional database tracking with rich querying capabilities
+* **Type-Safe** - Full type hints and PHPStan compatibility
+* **Laravel 12 Optimized** - Built specifically for Laravel 12
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+## Requirements
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+* PHP 8.4+
+* Laravel 12.0+
 
 ## Installation
 
-You can install the package via composer:
-
 ```bash
-composer require :vendor_slug/:package_slug
+composer require shavonn/laravel-status-machina
 ```
 
-You can publish and run the migrations with:
+### Publish Configuration
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
+php artisan vendor:publish --tag=status-machina-config
+```
+
+### Publish Migrations (if using history tracking)
+
+```bash
+php artisan vendor:publish --tag=status-machina-migrations
 php artisan migrate
 ```
 
-You can publish the config file with:
+## Quick Start
 
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
+### 1. Create a State Configuration
+
+```php
+<?php
+
+namespace App\States;
+
+use StatusMachina\Config\AbstractStateConfig;
+
+class OrderStateConfig extends AbstractStateConfig
+{
+    protected string $initialState = 'pending';
+
+    public function __construct()
+    {
+        // Define states
+        $this->addStates([
+            'pending',
+            'processing',
+            'shipped',
+            'delivered',
+            'cancelled',
+            'refunded'
+        ]);
+
+        // Define transitions
+        $this->setTransition('process', 
+            $this->transition()
+                ->from('pending')
+                ->to('processing')
+        );
+
+        $this->setTransition('ship',
+            $this->transition()
+                ->from('processing')
+                ->to('shipped')
+        );
+
+        $this->setTransition('deliver',
+            $this->transition()
+                ->from('shipped')
+                ->to('delivered')
+        );
+
+        $this->setTransition('cancel',
+            $this->transition()
+                ->from(['pending', 'processing'])
+                ->to('cancelled')
+        );
+
+        // Add hooks
+        $this->beforeTransition('ship', function ($order, $context) {
+            if (!$order->hasShippingAddress()) {
+                throw new \Exception('Shipping address required');
+            }
+        });
+
+        $this->afterTransition('deliver', function ($order, $context) {
+            $order->customer->notify(new OrderDeliveredNotification());
+        });
+
+        // Protect transitions
+        $this->protectTransition('cancel', 'cancel-order');
+        $this->protectTransition('refund', 'refund-order');
+    }
+}
 ```
 
-This is the contents of the published config file:
+### 2. Register State Configuration
+
+```php
+// In AppServiceProvider or a dedicated ServiceProvider
+
+use StatusMachina\StatusMachina;
+
+public function boot(): void
+{
+    StatusMachina::registerStateConfig('order', OrderStateConfig::class);
+    StatusMachina::registerStateManagement(Order::class, 'status', 'order');
+}
+```
+
+### 3. Use in Your Model
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use StatusMachina\Traits\HasStateMachine;
+
+class Order extends Model
+{
+    use HasStateMachine;
+
+    protected $fillable = ['status', 'total', 'customer_id'];
+}
+```
+
+### 4. Working with States
+
+```php
+$order = Order::find(1);
+
+// Get current state
+$currentState = $order->currentState(); // 'pending'
+
+// Check state
+if ($order->stateIs('pending')) {
+    // Order is pending
+}
+
+// Check multiple states
+if ($order->stateIsAny(['pending', 'processing'])) {
+    // Order is active
+}
+
+// Get available transitions
+$transitions = $order->availableTransitions(); // ['process', 'cancel']
+
+// Check if can transition
+if ($order->canTransitionTo('processing')) {
+    $order->transitionTo('process');
+}
+
+// Transition with context
+$order->transitionTo('ship', [
+    'carrier' => 'FedEx',
+    'tracking_number' => '1234567890',
+    'shipped_by' => auth()->id()
+]);
+
+// Save the model after transitions
+$order->save();
+```
+
+## Advanced Features
+
+### Transition Guards
+
+Protect transitions with callable guards:
+
+```php
+$this->setTransition('publish',
+    $this->transition()
+        ->from('approved')
+        ->to('published')
+        ->guard(fn($article) => $article->isComplete())
+        ->guard(fn($article) => $article->hasRequiredMetadata())
+);
+```
+
+### Conditional Hooks
+
+Execute hooks only when conditions are met:
+
+```php
+$this->afterTransition('approve', function ($article, $context) {
+    $article->author->notify(new ArticleApprovedNotification());
+})
+->when(fn($article) => $article->author->wantsNotifications())
+->withPriority(90)
+->withTags('notification', 'author');
+```
+
+### Hook Priorities
+
+Control hook execution order with priorities (0-100, higher executes first):
+
+```php
+$this->beforeTransition('delete', $criticalValidation)->withPriority(100);
+$this->beforeTransition('delete', $logging)->withPriority(50);
+$this->beforeTransition('delete', $cleanup)->withPriority(10);
+```
+
+### Authorization
+
+Configure authorization globally in config/status-machina.php:
+
+```php
+'default_authorization' => 'policy', // null, gate, policy, or permission
+```
+
+Or protect specific transitions:
+
+```php
+$this->protectTransition('approve', 'review-articles');
+$this->protectTransition('publish', 'publish-articles');
+```
+
+Check authorization with context:
+
+```php
+$stateMachine = StatusMachina::for($article);
+
+if ($stateMachine->userCanTransitionTo('approved', ['reviewed_by' => 'Mike'])) {
+    $stateMachine->transition('approve', ['reviewed_by' => 'Mike']);
+}
+```
+
+### History Tracking
+
+Enable history tracking globally:
+
+```php
+// In config/status-machina.php
+'db_history_tracking' => [
+    'enabled' => true,
+    'history_table_name' => 'state_transitions',
+],
+```
+
+Or per state configuration:
+
+```php
+class ArticleStateConfig extends AbstractStateConfig
+{
+    public function __construct()
+    {
+        // ... states and transitions ...
+        
+        $this->trackHistory('database', ['enabled' => true]);
+    }
+}
+```
+
+Query transition history:
+
+```php
+use StatusMachina\Models\StateTransition;
+
+// Get all transitions for a model
+$history = StateTransition::forModel($order)
+    ->forProperty('status')
+    ->latest()
+    ->get();
+
+// Get transition statistics
+$stats = app(StateTransitionRepository::class)
+    ->getStateDurations($order, 'status');
+
+// Prune old history
+php artisan status-machina:prune-history --days=90
+```
+
+### Working with Non-Eloquent Objects
+
+```php
+class OrderDTO
+{
+    public string $status = '';
+    public array $items = [];
+}
+
+// Register state management
+StatusMachina::registerStateConfig('order', OrderStateConfig::class);
+StatusMachina::registerStateManagement(OrderDTO::class, 'status', 'order');
+
+// Use it
+$order = new OrderDTO();
+$stateMachine = StatusMachina::for($order, 'status');
+$stateMachine->transition('process');
+```
+
+### State Configuration Reference
+
+#### States
+
+```php
+// Single state
+$this->state('active');
+
+// Multiple states
+$this->addStates(['draft', 'published', 'archived']);
+```
+
+#### Transitions
+
+```php
+// Simple transition
+$this->setTransition('activate',
+    $this->transition()->from('inactive')->to('active')
+);
+
+// Multiple from states
+$this->setTransition('archive',
+    $this->transition()->from(['draft', 'published'])->to('archived')
+);
+
+// From any state
+$this->setTransition('reset',
+    $this->transition()->from('*')->to('draft')
+);
+
+// With metadata
+$this->setTransition('publish',
+    $this->transition()
+        ->from('approved')
+        ->to('published')
+        ->withMetadata(['requires_review' => true])
+);
+```
+
+#### Hooks
+
+```php
+// Before/after transition
+$this->beforeTransition('submit', $callback);
+$this->afterTransition('approve', $callback);
+
+// Before/after entering state
+$this->beforeStateTo('published', $callback);
+$this->afterStateTo('archived', $callback);
+
+// Before/after leaving state
+$this->beforeStateFrom('draft', $callback);
+$this->afterStateFrom('published', $callback);
+
+// With class handler
+$this->beforeTransition('process', ProcessOrderHandler::class);
+
+// With method array
+$this->afterTransition('deliver', [OrderService::class, 'handleDelivery']);
+```
+
+#### Hook Handlers
+
+```php
+// Callable
+$this->beforeTransition('delete', function ($model, array $context) {
+    Log::warning("Deleting {$model->name}", $context);
+});
+
+// Class with handle method
+class ArchiveHandler
+{
+    public function handle($model, array $context): void
+    {
+        Storage::move($model->path, 'archive/' . $model->path);
+    }
+}
+```
+
+### Configuration Options
 
 ```php
 return [
+    // Default authorization method: null, gate, policy, permission
+    'default_authorization' => env('STATUS_MACHINA_AUTH', 'null'),
+
+    // Database history tracking
+    'db_history_tracking' => [
+        'enabled' => false,
+        'history_table_name' => 'state_transitions',
+    ],
+
+    // Activity log history tracking (for Spatie Activity Log)
+    'activitylog_history_tracking' => [
+        'enabled' => false,
+        'log_name' => 'state_transitions',
+    ],
+
+    // Days to retain history (null = forever)
+    'max_history_retention' => null,
 ];
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
-
-## Usage
+### Testing
 
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+use StatusMachina\StatusMachina;
+
+public function test_order_can_transition_to_processing()
+{
+    $order = Order::factory()->create(['status' => 'pending']);
+    
+    $this->assertTrue($order->canTransitionTo('processing'));
+    $this->assertTrue($order->stateIs('pending'));
+    
+    $order->transitionTo('process');
+    
+    $this->assertTrue($order->stateIs('processing'));
+    $this->assertEquals(['ship', 'cancel'], $order->availableTransitions());
+}
+
+public function test_unauthorized_user_cannot_cancel_order()
+{
+    $this->actingAs($regularUser);
+    
+    $order = Order::factory()->create(['status' => 'processing']);
+    $stateMachine = StatusMachina::for($order);
+    
+    $this->assertFalse($stateMachine->userCanTransitionTo('cancelled'));
+}
 ```
 
 ## Testing
@@ -78,15 +454,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
 
 ## License
 
