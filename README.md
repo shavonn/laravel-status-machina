@@ -197,29 +197,6 @@ $this->setTransition('publish',
 );
 ```
 
-### Conditional Hooks
-
-Execute hooks only when conditions are met:
-
-```php
-$this->afterTransition('approve', function ($article, $context) {
-    $article->author->notify(new ArticleApprovedNotification());
-})
-->when(fn($article) => $article->author->wantsNotifications())
-->withPriority(90)
-->withTags('notification', 'author');
-```
-
-### Hook Priorities
-
-Control hook execution order with priorities (0-100, higher executes first):
-
-```php
-$this->beforeTransition('delete', $criticalValidation)->withPriority(100);
-$this->beforeTransition('delete', $logging)->withPriority(50);
-$this->beforeTransition('delete', $cleanup)->withPriority(10);
-```
-
 ### Authorization
 
 Configure authorization globally in config/status-machina.php:
