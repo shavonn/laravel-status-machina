@@ -29,7 +29,7 @@ class StatusMachinaServiceProvider extends ServiceProvider
             ], 'status-machina-config');
 
             // Publish migrations
-            $this->publishes([
+            $this->publishesMigrations([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'status-machina-migrations');
 
