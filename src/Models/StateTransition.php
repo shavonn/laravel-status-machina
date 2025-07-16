@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Shavonn\StatusMachina\Models;
 
-use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -127,21 +126,7 @@ class StateTransition extends Model
     /**
      * Get a human-readable duration in the previous state
      */
-    public function getDurationInPreviousStateForHumans(): ?string
-    {
-        $duration = $this->getDurationInPreviousState();
-
-        if ($duration === null) {
-            return null;
-        }
-
-        return now()->subSeconds($duration)->diffForHumans(now(), CarbonInterface::DIFF_ABSOLUTE);
-    }
-
-    /**
-     * Get the duration in the previous state
-     */
-    public function getDurationInPreviousState(): ?float
+    public function getDurationInPreviousState(): ?int
     {
         $previousTransition = self::forModel($this->model)
             ->forProperty($this->property)
@@ -149,11 +134,12 @@ class StateTransition extends Model
             ->latest()
             ->first();
 
-        if (! $previousTransition) {
+        if (!$previousTransition) {
             return null;
         }
 
-        return $this->created_at->diffInSeconds($previousTransition->created_at);
+        // Cast to int since diffInSeconds returns float
+        return (int) $previousTransition->created_at->diffInSeconds($this->created_at);
     }
 
     /**

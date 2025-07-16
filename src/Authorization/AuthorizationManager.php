@@ -11,13 +11,18 @@ class AuthorizationManager
 {
     /** @var array<string, AuthorizationStrategyInterface> */
     protected array $strategies = [];
-
-    protected readonly AuthorizationMethod $defaultMethod;
+    protected AuthorizationMethod $defaultMethod;
 
     public function __construct(
         protected readonly Application $app
     ) {
-        $this->defaultMethod = config('status-machina.default_authorization', AuthorizationMethod::Null);
+        $config = config('status-machina.default_authorization');
+
+        // Handle both string and enum configs
+        $this->defaultMethod = $config instanceof AuthorizationMethod
+            ? $config
+            : AuthorizationMethod::from($config ?? 'null');
+
         $this->initializeStrategies();
     }
 
