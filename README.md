@@ -51,7 +51,7 @@ php artisan migrate
 
 namespace App\States;
 
-use StatusMachina\Config\AbstractStateConfig;
+use Shavonn\StatusMachina\Config\AbstractStateConfig;
 
 class OrderStateConfig extends AbstractStateConfig
 {
@@ -117,7 +117,7 @@ class OrderStateConfig extends AbstractStateConfig
 ```php
 // In AppServiceProvider or a dedicated ServiceProvider
 
-use StatusMachina\StatusMachina;
+use Shavonn\StatusMachina\StatusMachina;
 
 public function boot(): void
 {
@@ -134,7 +134,7 @@ public function boot(): void
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use StatusMachina\Traits\HasStateMachine;
+use Shavonn\StatusMachina\Traits\HasStateMachine;
 
 class Order extends Model
 {
@@ -197,29 +197,6 @@ $this->setTransition('publish',
 );
 ```
 
-### Conditional Hooks
-
-Execute hooks only when conditions are met:
-
-```php
-$this->afterTransition('approve', function ($article, $context) {
-    $article->author->notify(new ArticleApprovedNotification());
-})
-->when(fn($article) => $article->author->wantsNotifications())
-->withPriority(90)
-->withTags('notification', 'author');
-```
-
-### Hook Priorities
-
-Control hook execution order with priorities (0-100, higher executes first):
-
-```php
-$this->beforeTransition('delete', $criticalValidation)->withPriority(100);
-$this->beforeTransition('delete', $logging)->withPriority(50);
-$this->beforeTransition('delete', $cleanup)->withPriority(10);
-```
-
 ### Authorization
 
 Configure authorization globally in config/status-machina.php:
@@ -274,7 +251,7 @@ class ArticleStateConfig extends AbstractStateConfig
 Query transition history:
 
 ```php
-use StatusMachina\Models\StateTransition;
+use Shavonn\StatusMachina\Models\StateTransition;
 
 // Get all transitions for a model
 $history = StateTransition::forModel($order)
@@ -415,7 +392,7 @@ return [
 ### Testing
 
 ```php
-use StatusMachina\StatusMachina;
+use Shavonn\StatusMachina\StatusMachina;
 
 public function test_order_can_transition_to_processing()
 {

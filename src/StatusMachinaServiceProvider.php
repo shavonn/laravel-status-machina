@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shavonn\StatusMachina;
 
 use Illuminate\Support\ServiceProvider;
+use Shavonn\StatusMachina\Commands\PruneStateHistory;
 use Shavonn\StatusMachina\History\StateTransitionRepository;
 
 class StatusMachinaServiceProvider extends ServiceProvider
@@ -34,7 +35,7 @@ class StatusMachinaServiceProvider extends ServiceProvider
 
             // Register commands
             $this->commands([
-                Commands\PruneStateHistory::class,
+                PruneStateHistory::class,
             ]);
         }
     }

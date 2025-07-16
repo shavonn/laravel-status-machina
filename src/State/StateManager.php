@@ -72,7 +72,10 @@ class StateManager
         // Initialize state
         $this->initializeState();
     }
-
+    public function getConfig(): StateConfigInterface
+    {
+        return $this->config;
+    }
     protected function shouldTrackHistory(): bool
     {
         // Check state config first (takes precedence)
@@ -119,7 +122,7 @@ class StateManager
     {
         $transitions = $this->config->transitions();
 
-        if (! isset($transitions[$transitionName])) {
+        if (!isset($transitions[$transitionName])) {
             throw new InvalidTransitionException(
                 message: "Transition '{$transitionName}' does not exist",
                 code: 404
@@ -128,12 +131,15 @@ class StateManager
 
         $transition = $transitions[$transitionName];
 
-        if (! $this->isValidTransition($transition, $this->currentState)) {
+        if (!$this->isValidTransition($transition, $this->currentState)) {
             throw new InvalidTransitionException(
                 message: "Cannot transition '{$transitionName}' from state '{$this->currentState}'",
                 code: 400
             );
         }
+
+        // Check authorization BEFORE starting transition
+        $this->checkAuthorization($transitionName, Auth::user(), $context);
 
         $toState = $transition->getTo();
         $fromState = $this->currentState;
