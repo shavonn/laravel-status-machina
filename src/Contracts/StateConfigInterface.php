@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Contracts;
+namespace SysMatter\StatusMachina\Contracts;
 
-use Shavonn\StatusMachina\Hooks\Hook;
-use Shavonn\StatusMachina\State\Transition;
+use SysMatter\StatusMachina\Hooks\Hook;
+use SysMatter\StatusMachina\State\Transition;
 
 interface StateConfigInterface
 {

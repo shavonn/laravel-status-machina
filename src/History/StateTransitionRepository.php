@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\History;
+namespace SysMatter\StatusMachina\History;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Shavonn\StatusMachina\Models\StateTransition;
+use SysMatter\StatusMachina\Models\StateTransition;
 
 class StateTransitionRepository
 {

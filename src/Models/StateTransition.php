@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Models;
+namespace SysMatter\StatusMachina\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

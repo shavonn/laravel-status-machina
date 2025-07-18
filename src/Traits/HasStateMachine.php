@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Traits;
+namespace SysMatter\StatusMachina\Traits;
 
-use Shavonn\StatusMachina\State\StateManager;
-use Shavonn\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\State\StateManager;
+use SysMatter\StatusMachina\StatusMachina;
 
 trait HasStateMachine
 {

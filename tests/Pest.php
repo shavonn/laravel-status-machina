@@ -1,11 +1,11 @@
 <?php
 
-use Shavonn\StatusMachina\Tests\TestCase;
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\Tests\Fixtures\States\ArticleStateConfig;
-use Shavonn\StatusMachina\Tests\Fixtures\States\OrderStateConfig;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\Article;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\Order;
+use SysMatter\StatusMachina\Tests\TestCase;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\Tests\Fixtures\States\ArticleStateConfig;
+use SysMatter\StatusMachina\Tests\Fixtures\States\OrderStateConfig;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\Article;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\Order;
 
 uses(TestCase::class)->in('Feature', 'Unit');
 

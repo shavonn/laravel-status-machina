@@ -1,10 +1,10 @@
 <?php
 
-use Shavonn\StatusMachina\Exceptions\AuthorizationException;
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\Authorization\AuthorizationMethod;
+use SysMatter\StatusMachina\Exceptions\AuthorizationException;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\Authorization\AuthorizationMethod;
 use Illuminate\Support\Facades\Gate;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\User;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\User;
 
 beforeEach(function () {
     $this->user = User::create([

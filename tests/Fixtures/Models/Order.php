@@ -1,9 +1,9 @@
 <?php
 
-namespace Shavonn\StatusMachina\Tests\Fixtures\Models;
+namespace SysMatter\StatusMachina\Tests\Fixtures\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Shavonn\StatusMachina\Traits\HasStateMachine;
+use SysMatter\StatusMachina\Traits\HasStateMachine;
 
 class Order extends Model
 {

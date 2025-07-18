@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Config;
+namespace SysMatter\StatusMachina\Config;
 
 use LogicException;
-use Shavonn\StatusMachina\Contracts\StateConfigInterface;
-use Shavonn\StatusMachina\Hooks\Hook;
-use Shavonn\StatusMachina\Hooks\HookType;
-use Shavonn\StatusMachina\State\Transition;
+use SysMatter\StatusMachina\Contracts\StateConfigInterface;
+use SysMatter\StatusMachina\Hooks\Hook;
+use SysMatter\StatusMachina\Hooks\HookType;
+use SysMatter\StatusMachina\State\Transition;
 
 abstract class AbstractStateConfig implements StateConfigInterface
 {

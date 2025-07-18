@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Exceptions;
+namespace SysMatter\StatusMachina\Exceptions;
 
 use Exception;
 

@@ -1,9 +1,9 @@
 # Laravel Status Machina
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/shavonn/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/shavonn/laravel-status-machina)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/shavonn/laravel-status-machina/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/shavonn/laravel-status-machina/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/shavonn/laravel-status-machina/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/shavonn/laravel-status-machina/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/shavonn/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/shavonn/laravel-status-machina)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/sysmatter/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/sysmatter/laravel-status-machina)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sysmatter/laravel-status-machina/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sysmatter/laravel-status-machina/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/sysmatter/laravel-status-machina/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/sysmatter/laravel-status-machina/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/sysmatter/laravel-status-machina.svg?style=flat-square)](https://packagist.org/packages/sysmatter/laravel-status-machina)
 
 A powerful and flexible state machine package for Laravel 12 with PHP 8.4, featuring state management, transitions,
 hooks, and authorization.
@@ -26,19 +26,19 @@ hooks, and authorization.
 ## Installation
 
 ```bash
-composer require shavonn/laravel-status-machina
+composer require sysmatter/laravel-status-machina
 ```
 
 ### Publish Configuration
 
 ```bash
-php artisan vendor:publish --tag=status-machina-config
+php artisan vendor:publish --provider="SysMatter\StatusMachina\StatusMachinaServiceProvider" --tag=status-machina-config
 ```
 
-### Publish Migrations (if using history tracking)
+### Publish Migrations (if using database history tracking)
 
 ```bash
-php artisan vendor:publish --tag=status-machina-migrations
+php artisan vendor:publish --provider="SysMatter\StatusMachina\StatusMachinaServiceProvider" --tag=status-machina-migrations
 php artisan migrate
 ```
 
@@ -51,7 +51,7 @@ php artisan migrate
 
 namespace App\States;
 
-use Shavonn\StatusMachina\Config\AbstractStateConfig;
+use SysMatter\StatusMachina\Config\AbstractStateConfig;
 
 class OrderStateConfig extends AbstractStateConfig
 {
@@ -117,7 +117,7 @@ class OrderStateConfig extends AbstractStateConfig
 ```php
 // In AppServiceProvider or a dedicated ServiceProvider
 
-use Shavonn\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\StatusMachina;
 
 public function boot(): void
 {
@@ -134,7 +134,7 @@ public function boot(): void
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Shavonn\StatusMachina\Traits\HasStateMachine;
+use SysMatter\StatusMachina\Traits\HasStateMachine;
 
 class Order extends Model
 {
@@ -251,7 +251,7 @@ class ArticleStateConfig extends AbstractStateConfig
 Query transition history:
 
 ```php
-use Shavonn\StatusMachina\Models\StateTransition;
+use SysMatter\StatusMachina\Models\StateTransition;
 
 // Get all transitions for a model
 $history = StateTransition::forModel($order)
@@ -392,7 +392,7 @@ return [
 ### Testing
 
 ```php
-use Shavonn\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\StatusMachina;
 
 public function test_order_can_transition_to_processing()
 {

@@ -1,8 +1,8 @@
 <?php
 
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\Exceptions\InvalidTransitionException;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\Article;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\Exceptions\InvalidTransitionException;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\Article;
 
 it('can transition between valid states', function () {
     $article = createArticle();

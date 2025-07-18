@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina;
+namespace SysMatter\StatusMachina;
 
 use Illuminate\Contracts\Foundation\Application;
-use Shavonn\StatusMachina\Contracts\StateConfigInterface;
-use Shavonn\StatusMachina\Exceptions\InvalidStateException;
-use Shavonn\StatusMachina\State\StateManager;
+use SysMatter\StatusMachina\Contracts\StateConfigInterface;
+use SysMatter\StatusMachina\Exceptions\InvalidStateException;
+use SysMatter\StatusMachina\State\StateManager;
 
 class StatusMachinaManager
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Authorization;
+namespace SysMatter\StatusMachina\Authorization;
 
 use Illuminate\Contracts\Foundation\Application;
-use Shavonn\StatusMachina\Exceptions\AuthorizationException;
+use SysMatter\StatusMachina\Exceptions\AuthorizationException;
 
 class AuthorizationManager
 {

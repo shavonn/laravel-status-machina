@@ -1,7 +1,7 @@
 <?php
 
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\Tests\Fixtures\DTOs\OrderDTO;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\Tests\Fixtures\DTOs\OrderDTO;
 
 it('works with non-eloquent objects', function () {
     StatusMachina::registerStateManagement(OrderDTO::class, 'status', 'order');

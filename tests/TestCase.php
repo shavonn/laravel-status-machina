@@ -1,13 +1,13 @@
 <?php
 
-namespace Shavonn\StatusMachina\Tests;
+namespace SysMatter\StatusMachina\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\StatusMachinaServiceProvider;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\StatusMachinaServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Shavonn\StatusMachina\Authorization\AuthorizationMethod;
+use SysMatter\StatusMachina\Authorization\AuthorizationMethod;
 
 abstract class TestCase extends Orchestra
 {

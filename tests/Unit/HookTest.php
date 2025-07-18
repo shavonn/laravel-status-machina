@@ -1,6 +1,6 @@
 <?php
 
-use Shavonn\StatusMachina\Hooks\Hook;
+use SysMatter\StatusMachina\Hooks\Hook;
 
 it('can set callback', function () {
     $callback = fn () => 'test';

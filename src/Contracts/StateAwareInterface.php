@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Contracts;
+namespace SysMatter\StatusMachina\Contracts;
 
 interface StateAwareInterface
 {
