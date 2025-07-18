@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Hooks;
+namespace SysMatter\StatusMachina\Hooks;
 
 enum HookType: string
 {

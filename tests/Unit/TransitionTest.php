@@ -1,6 +1,6 @@
 <?php
 
-use Shavonn\StatusMachina\State\Transition;
+use SysMatter\StatusMachina\State\Transition;
 
 it('can be created with fluent interface', function () {
     $transition = (new Transition())

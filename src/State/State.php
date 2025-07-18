@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\State;
+namespace SysMatter\StatusMachina\State;
 
 use InvalidArgumentException;
 use Stringable;

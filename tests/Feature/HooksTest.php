@@ -1,9 +1,9 @@
 <?php
 
-use Shavonn\StatusMachina\Config\AbstractStateConfig;
-use Shavonn\StatusMachina\Hooks\Hook;
-use Shavonn\StatusMachina\StatusMachina;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\Order;
+use SysMatter\StatusMachina\Config\AbstractStateConfig;
+use SysMatter\StatusMachina\Hooks\Hook;
+use SysMatter\StatusMachina\StatusMachina;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\Order;
 
 it('executes before transition hooks', function () {
     $executed = false;

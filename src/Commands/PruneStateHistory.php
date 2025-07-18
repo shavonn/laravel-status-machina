@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Commands;
+namespace SysMatter\StatusMachina\Commands;
 
 use Illuminate\Console\Command;
-use Shavonn\StatusMachina\History\StateTransitionRepository;
+use SysMatter\StatusMachina\History\StateTransitionRepository;
 
 class PruneStateHistory extends Command
 {

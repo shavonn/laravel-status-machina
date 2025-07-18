@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Shavonn\StatusMachina\Authorization\AuthorizationMethod;
+use SysMatter\StatusMachina\Authorization\AuthorizationMethod;
 
 return [
     /*

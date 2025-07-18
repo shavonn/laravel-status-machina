@@ -1,8 +1,8 @@
 <?php
 
-namespace Shavonn\StatusMachina\Tests\Fixtures\States;
+namespace SysMatter\StatusMachina\Tests\Fixtures\States;
 
-use Shavonn\StatusMachina\Config\AbstractStateConfig;
+use SysMatter\StatusMachina\Config\AbstractStateConfig;
 
 class OrderStateConfig extends AbstractStateConfig
 {

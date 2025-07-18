@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Authorization;
+namespace SysMatter\StatusMachina\Authorization;
 
 enum AuthorizationMethod: string
 {

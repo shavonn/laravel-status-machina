@@ -1,6 +1,6 @@
 <?php
 
-use Shavonn\StatusMachina\State\State;
+use SysMatter\StatusMachina\State\State;
 
 it('can be created with name', function () {
     $state = new State('published');

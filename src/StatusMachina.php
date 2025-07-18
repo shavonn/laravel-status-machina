@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina;
+namespace SysMatter\StatusMachina;
 
 use Illuminate\Support\Facades\Facade;
-use Shavonn\StatusMachina\State\StateManager;
+use SysMatter\StatusMachina\State\StateManager;
 
 /**
  * @method static StateManager for(object $model, string $property = 'status')

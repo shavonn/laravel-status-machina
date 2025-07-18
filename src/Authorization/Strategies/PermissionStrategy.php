@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Authorization\Strategies;
+namespace SysMatter\StatusMachina\Authorization\Strategies;
 
 use RuntimeException;
-use Shavonn\StatusMachina\Authorization\AuthorizationStrategyInterface;
+use SysMatter\StatusMachina\Authorization\AuthorizationStrategyInterface;
 
 class PermissionStrategy implements AuthorizationStrategyInterface
 {

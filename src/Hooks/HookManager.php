@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\Hooks;
+namespace SysMatter\StatusMachina\Hooks;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Shavonn\StatusMachina\Exceptions\InvalidStateException;
+use SysMatter\StatusMachina\Exceptions\InvalidStateException;
 use Illuminate\Support\Facades\App;
 
 class HookManager

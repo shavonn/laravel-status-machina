@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina\State;
+namespace SysMatter\StatusMachina\State;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
-use Shavonn\StatusMachina\Authorization\AuthorizationManager;
-use Shavonn\StatusMachina\Contracts\StateConfigInterface;
-use Shavonn\StatusMachina\Exceptions\AuthorizationException;
-use Shavonn\StatusMachina\Exceptions\InvalidTransitionException;
-use Shavonn\StatusMachina\History\StateTransitionRepository;
-use Shavonn\StatusMachina\Hooks\HookManager;
-use Shavonn\StatusMachina\Hooks\HookType;
+use SysMatter\StatusMachina\Authorization\AuthorizationManager;
+use SysMatter\StatusMachina\Contracts\StateConfigInterface;
+use SysMatter\StatusMachina\Exceptions\AuthorizationException;
+use SysMatter\StatusMachina\Exceptions\InvalidTransitionException;
+use SysMatter\StatusMachina\History\StateTransitionRepository;
+use SysMatter\StatusMachina\Hooks\HookManager;
+use SysMatter\StatusMachina\Hooks\HookType;
 use Throwable;
 
 class StateManager

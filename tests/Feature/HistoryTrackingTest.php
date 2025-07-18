@@ -1,9 +1,9 @@
 <?php
 
-use Shavonn\StatusMachina\Models\StateTransition;
-use Shavonn\StatusMachina\History\StateTransitionRepository;
-use Shavonn\StatusMachina\Config\AbstractStateConfig;
-use Shavonn\StatusMachina\Tests\Fixtures\Models\Order;
+use SysMatter\StatusMachina\Models\StateTransition;
+use SysMatter\StatusMachina\History\StateTransitionRepository;
+use SysMatter\StatusMachina\Config\AbstractStateConfig;
+use SysMatter\StatusMachina\Tests\Fixtures\Models\Order;
 
 beforeEach(function () {
     config(['status-machina.db_history_tracking.enabled' => true]);

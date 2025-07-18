@@ -1,6 +1,6 @@
 <?php
 
-use Shavonn\StatusMachina\Config\AbstractStateConfig;
+use SysMatter\StatusMachina\Config\AbstractStateConfig;
 
 it('includes instantiated state automatically', function () {
     $config = new class () extends AbstractStateConfig {

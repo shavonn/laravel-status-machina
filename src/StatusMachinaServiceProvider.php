@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Shavonn\StatusMachina;
+namespace SysMatter\StatusMachina;
 
 use Illuminate\Support\ServiceProvider;
-use Shavonn\StatusMachina\Commands\PruneStateHistory;
-use Shavonn\StatusMachina\History\StateTransitionRepository;
+use SysMatter\StatusMachina\Commands\PruneStateHistory;
+use SysMatter\StatusMachina\History\StateTransitionRepository;
 
 class StatusMachinaServiceProvider extends ServiceProvider
 {

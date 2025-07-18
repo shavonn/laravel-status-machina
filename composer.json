@@ -1,12 +1,12 @@
 {
-  "name": "shavonn/laravel-status-machina",
+  "name": "sysmatter/laravel-status-machina",
   "description": "A flexible state machine package for Laravel",
   "keywords": [
     "Shavonn",
     "laravel",
     "laravel-status-machina"
   ],
-  "homepage": "https://github.com/shavonn/laravel-status-machina",
+  "homepage": "https://github.com/sysmatter/laravel-status-machina",
   "license": "MIT",
   "authors": [
     {
@@ -31,12 +31,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Shavonn\\StatusMachina\\": "src/"
+      "SysMatter\\StatusMachina\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Shavonn\\StatusMachina\\Tests\\": "tests/"
+      "SysMatter\\StatusMachina\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -57,10 +57,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Shavonn\\StatusMachina\\StatusMachinaServiceProvider"
+        "SysMatter\\StatusMachina\\StatusMachinaServiceProvider"
       ],
       "aliases": {
-        "StatusMachina": "Shavonn\\StatusMachina\\Facades\\StatusMachina"
+        "StatusMachina": "SysMatter\\StatusMachina\\Facades\\StatusMachina"
       }
     }
   },

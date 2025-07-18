@@ -32,7 +32,7 @@ Feature suggestions are welcome! Please create an issue and include:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/shavonn/laravel-status-machina.git
+   git clone https://github.com/sysmatter/laravel-status-machina.git
    cd laravel-status-machina
    ```
 
@@ -85,7 +85,7 @@ composer test
     - If you have write access: `git push origin your-branch-name`
     - If working from a fork: `git push origin your-branch-name` (this pushes to your fork)
 2. Create a pull request:
-    - Go to the [Laravel Status Machina repository](https://github.com/shavonn/laravel-status-machina)
+    - Go to the [Laravel Status Machina repository](https://github.com/sysmatter/laravel-status-machina)
     - Click "New pull request"
     - If working from a fork, click "compare across forks"
     - Select your branch and create the PR

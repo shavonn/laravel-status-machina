@@ -1,6 +1,6 @@
 <?php
 
-namespace Shavonn\StatusMachina\Tests\Fixtures\DTOs;
+namespace SysMatter\StatusMachina\Tests\Fixtures\DTOs;
 
 class OrderDTO
 {
