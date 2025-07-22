@@ -167,11 +167,11 @@ $transitions = $order->availableTransitions(); // ['process', 'cancel']
 
 // Check if can transition
 if ($order->canTransitionTo('processing')) {
-    $order->transitionTo('process');
+    $order->transition('process');
 }
 
 // Transition with context
-$order->transitionTo('ship', [
+$order->transition('ship', [
     'carrier' => 'FedEx',
     'tracking_number' => '1234567890',
     'shipped_by' => auth()->id()
@@ -401,7 +401,7 @@ public function test_order_can_transition_to_processing()
     $this->assertTrue($order->canTransitionTo('processing'));
     $this->assertTrue($order->stateIs('pending'));
     
-    $order->transitionTo('process');
+    $order->transition('process');
     
     $this->assertTrue($order->stateIs('processing'));
     $this->assertEquals(['ship', 'cancel'], $order->availableTransitions());

@@ -10,7 +10,7 @@ it('can transition between valid states', function () {
     expect($article->currentState())->toBe('draft');
     expect($article->canTransitionTo('pending_review'))->toBeTrue();
 
-    $article->transitionTo('submit');
+    $article->transition('submit');
 
     expect($article->currentState())->toBe('pending_review');
     expect($article->previousState())->toBe('draft');
@@ -22,7 +22,7 @@ it('throws exception for invalid transitions', function () {
     expect($article->currentState())->toBe('draft');
     expect($article->canTransitionTo('published'))->toBeFalse();
 
-    $article->transitionTo('publish');
+    $article->transition('publish');
 })->throws(InvalidTransitionException::class, "Cannot transition 'publish' from state 'draft'");
 
 it('can get available transitions', function () {
@@ -30,7 +30,7 @@ it('can get available transitions', function () {
 
     expect($article->availableTransitions())->toBe(['submit', 'archive']);
 
-    $article->transitionTo('submit');
+    $article->transition('submit');
 
     expect($article->availableTransitions())->toBe(['approve', 'reject', 'request_changes', 'archive']);
 });
@@ -40,7 +40,7 @@ it('supports wildcard from transitions', function () {
 
     expect($article->canTransitionTo('archived'))->toBeTrue();
 
-    $article->transitionTo('archive');
+    $article->transition('archive');
 
     expect($article->currentState())->toBe('archived');
 });
@@ -49,7 +49,7 @@ it('can transition with context data', function () {
     $article = createArticle(['status' => 'pending_review']);
     $context = ['reviewed_by' => 'John Doe', 'notes' => 'Looks good'];
 
-    $article->transitionTo('approve', $context);
+    $article->transition('approve', $context);
 
     expect($article->currentState())->toBe('approved');
 });
@@ -69,7 +69,7 @@ it('maintains state when transition fails', function () {
     $currentState = $article->currentState();
 
     try {
-        $article->transitionTo('submit');
+        $article->transition('submit');
     } catch (Exception $e) {
         // State should remain unchanged
         expect($article->currentState())->toBe($currentState);
@@ -107,7 +107,7 @@ it('supports multiple state properties on same model', function () {
 it('can prevent transition by throwing exception in hook', function () {
     $article = createArticle(['is_valid' => false]);
 
-    expect(fn () => $article->transitionTo('submit'))
-        ->toThrow(\Exception::class, 'Article must be valid')
+    expect(fn () => $article->transition('submit'))
+        ->toThrow(Exception::class, 'Article must be valid')
         ->and($article->currentState())->toBe('draft');
 });
