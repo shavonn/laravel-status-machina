@@ -14,7 +14,7 @@ it('records state transitions when history is enabled', function () {
 
     expect(StateTransition::count())->toBe(0);
 
-    $article->transitionTo('submit');
+    $article->transition('submit');
 
     expect(StateTransition::count())->toBe(1);
 
@@ -30,7 +30,7 @@ it('records context data with transitions', function () {
     $article = createArticle(['status' => 'pending_review']);
     $context = ['reviewed_by' => 'John', 'score' => 95];
 
-    $article->transitionTo('approve', $context);
+    $article->transition('approve', $context);
 
     $transition = StateTransition::latest()->first();
     expect($transition->context)->toBe($context);
@@ -40,9 +40,9 @@ it('can query transition history for a model', function () {
     $article = createArticle();
     $otherArticle = createArticle();
 
-    $article->transitionTo('submit');
-    $article->transitionTo('approve');
-    $otherArticle->transitionTo('submit');
+    $article->transition('submit');
+    $article->transition('approve');
+    $otherArticle->transition('submit');
 
     $history = StateTransition::forModel($article)->get();
 
@@ -53,12 +53,12 @@ it('can query transition history for a model', function () {
 it('calculates duration in previous state', function () {
     $article = createArticle();
 
-    $article->transitionTo('submit');
+    $article->transition('submit');
 
     // Travel forward in time
     $this->travel(2)->hours();
 
-    $article->transitionTo('approve');
+    $article->transition('approve');
 
     $lastTransition = StateTransition::latest()->first();
     $duration = $lastTransition->getDurationInPreviousState();
@@ -83,7 +83,7 @@ it('can prune old history', function () {
     ]);
 
     // Create recent transition
-    $article->transitionTo('submit');
+    $article->transition('submit');
 
     expect(StateTransition::count())->toBe(2);
 
@@ -115,7 +115,7 @@ it('respects state config history settings over global', function () {
     StatusMachina::registerStateManagement(Order::class, 'status', 'tracked');
 
     $order = createOrder(['status' => 'start']);
-    $order->transitionTo('go');
+    $order->transition('go');
 
     expect(StateTransition::count())->toBe(1);
 });

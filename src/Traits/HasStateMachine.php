@@ -15,7 +15,7 @@ trait HasStateMachine
     /**
      * Transition to a new state
      */
-    public function transitionTo(string $transition, array $context = [], string $property = 'status'): void
+    public function transition(string $transition, array $context = [], string $property = 'status'): void
     {
         $this->stateMachine($property)->transition($transition, $context);
     }

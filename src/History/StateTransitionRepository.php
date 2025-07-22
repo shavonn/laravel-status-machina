@@ -21,7 +21,7 @@ class StateTransitionRepository
      * Record a state transition
      */
     public function record(
-        Model $model,
+        object $model,
         string $property,
         string $fromState,
         string $toState,
